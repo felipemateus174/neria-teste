@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Stepper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            padding: 40px;
+        }
+
+        .stepper-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            width: 250px;
+            position: relative;
+        }
+
+        /* Background line (gray) */
+        .stepper-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #d1d5db;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        /* Progress line (green) */
+        .stepper-progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            background-color: #c4d82e;
+            transform: translateY(-50%);
+            z-index: 2;
+            transition: width 0.3s ease;
+        }
+
+        .stepper-steps {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            z-index: 3;
+        }
+
+        .step {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 3px solid #d1d5db;
+            transition: all 0.3s ease;
+        }
+
+        .step.completed {
+            background-color: #c4d82e;
+            border-color: #c4d82e;
+        }
+
+        .step.completed svg {
+            display: block;
+        }
+
+        .step.active {
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        .step svg {
+            display: none;
+            width: 14px;
+            height: 14px;
+        }
+
+        .step.completed svg {
+            display: block;
+        }
+
+        .checkmark {
+            fill: none;
+            stroke: white;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Label for each state */
+        .state-label {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Estado 1: Primeiro passo completo -->
+    <div class="stepper-container">
+        <div class="stepper">
+            <div class="stepper-line"></div>
+            <div class="stepper-progress" style="width: 0%;"></div>
+            <div class="stepper-steps">
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <p class="state-label">Estado 1</p>
+    </div>
+
+    <!-- Estado 2: Primeiro completo, segundo completo -->
+    <div class="stepper-container">
+        <div class="stepper">
+            <div class="stepper-line"></div>
+            <div class="stepper-progress" style="width: 50%;"></div>
+            <div class="stepper-steps">
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <p class="state-label">Estado 2</p>
+    </div>
+
+    <!-- Estado 3: Dois completos, terceiro ativo -->
+    <div class="stepper-container">
+        <div class="stepper">
+            <div class="stepper-line"></div>
+            <div class="stepper-progress" style="width: 50%;"></div>
+            <div class="stepper-steps">
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step active">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <p class="state-label">Estado 3</p>
+    </div>
+
+    <!-- Estado 4: Progresso até o terceiro -->
+    <div class="stepper-container">
+        <div class="stepper">
+            <div class="stepper-line"></div>
+            <div class="stepper-progress" style="width: 75%;"></div>
+            <div class="stepper-steps">
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step active">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <p class="state-label">Estado 4</p>
+    </div>
+
+    <!-- Estado 5: Todos completos -->
+    <div class="stepper-container">
+        <div class="stepper">
+            <div class="stepper-line"></div>
+            <div class="stepper-progress" style="width: 100%;"></div>
+            <div class="stepper-steps">
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step completed">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="step active">
+                    <svg viewBox="0 0 24 24">
+                        <polyline class="checkmark" points="4 12 9 17 20 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <p class="state-label">Estado 5</p>
+    </div>
+</body>
+</html>
