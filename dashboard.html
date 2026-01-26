@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Neria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a1628;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-container {
+            width: 390px;
+            background: linear-gradient(180deg, #0a1628 0%, #0d1e36 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .signal-bars {
+            display: flex;
+            gap: 1px;
+            align-items: flex-end;
+        }
+
+        .signal-bar {
+            width: 3px;
+            background: white;
+            border-radius: 1px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 20px 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 24px;
+            height: 32px;
+        }
+
+        .logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .greeting h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .greeting .name {
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d2340 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .level-badge-text {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .level-badge-value {
+            font-size: 12px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .level-badge-value svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .level-badge-arrow {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Banner */
+        .banner {
+            margin: 0 20px 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 100px;
+            background: linear-gradient(90deg, #0d4a2e 0%, #1a5f3c 50%, #2d7a4f 100%);
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            padding: 16px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .banner-tag {
+            background: #c4d82e;
+            color: #0a1628;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 4px;
+            width: fit-content;
+        }
+
+        .banner-title {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .banner-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 9px;
+            line-height: 1.3;
+            max-width: 200px;
+        }
+
+        .banner-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><rect fill="%231a5f3c" width="200" height="100"/></svg>');
+            background-size: cover;
+        }
+
+        .banner-people {
+            position: absolute;
+            right: 10px;
+            bottom: 0;
+            height: 90%;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .quick-action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .quick-action-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Leads Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .total-badge {
+            background: #c4d82e;
+            color: #0a1628;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .leads-stats {
+            display: flex;
+            gap: 8px;
+            padding: 0 20px;
+            margin-bottom: 12px;
+        }
+
+        .lead-stat-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .lead-stat-card.pending {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .lead-stat-card.negotiation {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .lead-stat-card.open {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .lead-stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .lead-stat-value {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4px;
+        }
+
+        .lead-stat-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Status Pills */
+        .status-pills {
+            display: flex;
+            gap: 8px;
+            padding: 0 20px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .status-pills::-webkit-scrollbar {
+            display: none;
+        }
+
+        .status-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 6px 12px;
+            color: white;
+            font-size: 11px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-pill .count {
+            background: #c4d82e;
+            color: #0a1628;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        /* Lead Card */
+        .lead-card {
+            margin: 0 20px 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .lead-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .lead-card-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lead-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .lead-info h3 {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .lead-info p {
+            color: #c4d82e;
+            font-size: 12px;
+        }
+
+        .lead-card-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .days-badge {
+            background: #c4d82e;
+            color: #0a1628;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .whatsapp-btn {
+            width: 36px;
+            height: 36px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .lead-card-footer {
+            display: flex;
+            gap: 8px;
+        }
+
+        .lead-status-tag {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .lead-status-tag.contract {
+            background: rgba(196, 216, 46, 0.2);
+            border-color: #c4d82e;
+            color: #c4d82e;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            background: linear-gradient(180deg, #0d2240 0%, #0a1a30 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px 24px 0 0;
+            padding: 12px 20px 20px;
+            display: flex;
+            justify-content: space-around;
+            position: sticky;
+            bottom: 0;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            color: white;
+        }
+
+        .nav-item.active span {
+            color: #c4d82e;
+        }
+
+        /* Second Lead Card (in list view) */
+        .lead-card-simple {
+            margin: 0 20px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lead-simple-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lead-simple-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lead-simple-info h4 {
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .lead-simple-info p {
+            color: #c4d82e;
+            font-size: 11px;
+        }
+
+        .lead-simple-right {
+            text-align: right;
+        }
+
+        .lead-simple-days {
+            color: #3b82f6;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .lead-simple-status {
+            color: #3b82f6;
+            font-size: 10px;
+            text-decoration: underline;
+        }
+
+        .access-list-link {
+            display: block;
+            text-align: left;
+            padding: 0 20px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .access-list-link svg {
+            width: 12px;
+            height: 12px;
+            margin-left: 4px;
+        }
+
+        /* Financial Section */
+        .financial-section {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 16px;
+        }
+
+        .financial-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .financial-header svg {
+            width: 20px;
+            height: 20px;
+            color: #c4d82e;
+        }
+
+        .financial-header span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        .financial-amount {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .financial-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .financial-row:last-child {
+            border-bottom: none;
+        }
+
+        .financial-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+
+        .financial-value {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .financial-value span {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .financial-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+        }
+
+        .financial-trend.up {
+            color: #10b981;
+        }
+
+        .financial-trend svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .trend-graph {
+            width: 50px;
+            height: 20px;
+        }
+
+        /* Commission Section */
+        .commission-section {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 16px;
+        }
+
+        .commission-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .commission-header svg {
+            width: 20px;
+            height: 20px;
+            color: #c4d82e;
+        }
+
+        .commission-header span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        .info-icon {
+            width: 14px;
+            height: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-left: 4px;
+        }
+
+        .commission-amount {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .commission-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .commission-total {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+
+        .commission-total span {
+            color: #c4d82e;
+            text-decoration: underline;
+        }
+
+        /* Level Section */
+        .level-section {
+            margin: 20px;
+            background: linear-gradient(135deg, #0d3a5c 0%, #0a2a45 100%);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(196, 216, 46, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .level-medal {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+
+        .level-medal-inner {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 50%, #a0a0a0 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(192, 192, 192, 0.3);
+        }
+
+        .level-medal svg {
+            width: 40px;
+            height: 40px;
+            color: #0a1628;
+        }
+
+        .level-percentage {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .level-percentage span {
+            color: #c0c0c0;
+        }
+
+        .level-message {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .level-btn {
+            background: #c4d82e;
+            color: #0a1628;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .level-btn:hover {
+            background: #d4e83e;
+        }
+
+        .level-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .level-progress-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .level-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .level-progress-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        .level-progress-track {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .level-progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #c0c0c0, #e8e8e8);
+            border-radius: 4px;
+            width: 78%;
+        }
+
+        .level-progress-markers {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .level-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .level-marker-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #c0c0c0;
+            border: 2px solid #0a2a45;
+        }
+
+        .level-marker-dot.gold {
+            background: #ffd700;
+        }
+
+        .level-marker span {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Advantages Section */
+        .advantages-section {
+            padding: 20px;
+        }
+
+        .advantages-title {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .advantage-row {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .advantage-row.gold {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .advantage-row.black {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .advantage-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            flex: 1;
+        }
+
+        .advantage-value {
+            color: #c4d82e;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Progress Items */
+        .progress-section {
+            padding: 0 20px 20px;
+        }
+
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        .progress-label {
+            color: white;
+            font-size: 13px;
+        }
+
+        .progress-value {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Earnings Chart Section */
+        .earnings-section {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .earnings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .earnings-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .month-selector {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 6px 12px;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .month-selector svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin-bottom: 16px;
+        }
+
+        .chart-line {
+            position: absolute;
+            right: 0;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chart-bars {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 160px;
+            padding-top: 20px;
+        }
+
+        .chart-bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .chart-bar {
+            width: 32px;
+            background: linear-gradient(180deg, #1e4a7a 0%, #0d2a4a 100%);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+        }
+
+        .chart-bar.highlighted {
+            background: linear-gradient(180deg, #c4d82e 0%, #9ab025 100%);
+        }
+
+        .chart-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+        }
+
+        /* Safe Area Bottom */
+        .safe-area-bottom {
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="status-bar-right">
+                <div class="signal-bars">
+                    <div class="signal-bar" style="height: 4px;"></div>
+                    <div class="signal-bar" style="height: 6px;"></div>
+                    <div class="signal-bar" style="height: 8px;"></div>
+                    <div class="signal-bar" style="height: 10px;"></div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 3C7.46 3 3.34 4.78.29 7.67c-.18.18-.29.43-.29.71 0 .28.11.53.29.71l2.48 2.48c.18.18.43.29.71.29.27 0 .52-.11.7-.28.79-.74 1.69-1.36 2.66-1.85.33-.16.56-.5.56-.9v-3.1c1.45-.48 3-.73 4.6-.73s3.15.25 4.6.73v3.1c0 .4.23.74.56.9.98.49 1.87 1.12 2.67 1.85.18.18.43.28.7.28.28 0 .53-.11.71-.29l2.48-2.48c.18-.18.29-.43.29-.71 0-.28-.11-.53-.29-.71C20.66 4.78 16.54 3 12 3z"/>
+                </svg>
+                <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+                    <rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="white" stroke-opacity="0.35"/>
+                    <rect x="2" y="2" width="18" height="8" rx="1.5" fill="white"/>
+                    <path d="M23 4v4a2 2 0 0 0 0-4z" fill="white" fill-opacity="0.4"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <svg viewBox="0 0 24 32" fill="none">
+                        <path d="M4 4h4v24H4V4zm12 0h4v24h-4V4z" fill="#c4d82e"/>
+                        <path d="M8 12h8v4H8v-4z" fill="#c4d82e"/>
+                    </svg>
+                </div>
+                <div class="greeting">
+                    <h1>Olá,<br><span class="name">Aubérico Silva</span></h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="level-badge">
+                    <div>
+                        <div class="level-badge-text">Seu nível</div>
+                        <div class="level-badge-value">
+                            <svg viewBox="0 0 24 24" fill="#c0c0c0">
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Prata
+                            <span class="level-badge-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="avatar">
+                    <svg viewBox="0 0 24 24" fill="white" width="28" height="28">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="banner-tag">A ENERGIA LIMPA</span>
+                <div class="banner-title">DOS BRASILEIROS</div>
+                <p class="banner-subtitle">Todo dia exemplo do banner - Reduzir contas, ganhar eficiência e impulsionar seu negócio com energia 100% renovável</p>
+            </div>
+            <div class="banner-image">
+                <svg viewBox="0 0 180 100" fill="none" style="position: absolute; right: 0; bottom: 0; height: 100%;">
+                    <defs>
+                        <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#87CEEB"/>
+                            <stop offset="100%" style="stop-color:#1a5f3c"/>
+                        </linearGradient>
+                    </defs>
+                    <rect fill="url(#skyGrad)" width="180" height="100"/>
+                    <!-- People silhouettes -->
+                    <ellipse cx="100" cy="95" rx="60" ry="8" fill="#0d4a2e"/>
+                    <rect x="70" y="40" width="20" height="55" rx="2" fill="#1e3a5f"/>
+                    <rect x="95" y="45" width="18" height="50" rx="2" fill="#2a4a6f"/>
+                    <rect x="118" y="50" width="16" height="45" rx="2" fill="#1e3a5f"/>
+                    <circle cx="80" cy="32" r="8" fill="#f5d0a9"/>
+                    <circle cx="104" cy="37" r="7" fill="#f5d0a9"/>
+                    <circle cx="126" cy="42" r="6" fill="#f5d0a9"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                + Lead
+            </button>
+            <button class="quick-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <line x1="9" y1="9" x2="15" y2="9"/>
+                    <line x1="9" y1="13" x2="15" y2="13"/>
+                    <line x1="9" y1="17" x2="12" y2="17"/>
+                </svg>
+                Benefícios
+            </button>
+            <button class="quick-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                + Parceiro
+            </button>
+        </div>
+
+        <!-- Leads Section -->
+        <div class="section-header">
+            <span class="section-title">Meus Leads</span>
+            <span class="total-badge">Total R$ 30k</span>
+        </div>
+
+        <div class="leads-stats">
+            <div class="lead-stat-card pending">
+                <div class="lead-stat-number">21</div>
+                <div class="lead-stat-value">R$ 30.000,00</div>
+                <div class="lead-stat-label">Ass. pendente</div>
+            </div>
+            <div class="lead-stat-card negotiation">
+                <div class="lead-stat-number">10</div>
+                <div class="lead-stat-value">R$ 20.000,00</div>
+                <div class="lead-stat-label">Negociação</div>
+            </div>
+            <div class="lead-stat-card open">
+                <div class="lead-stat-number">15</div>
+                <div class="lead-stat-value">R$ 30.000,00</div>
+                <div class="lead-stat-label">Abertas</div>
+            </div>
+        </div>
+
+        <!-- Status Pills -->
+        <div class="status-pills">
+            <div class="status-pill">
+                Em qualificação
+                <span class="count">21</span>
+            </div>
+            <div class="status-pill">
+                Apr. Cliente
+                <span class="count">10</span>
+            </div>
+            <div class="status-pill">
+                Elab. Proposta
+                <span class="count">1</span>
+            </div>
+        </div>
+
+        <!-- Lead Card -->
+        <div class="lead-card">
+            <div class="lead-card-header">
+                <div class="lead-card-left">
+                    <div class="lead-avatar">G</div>
+                    <div class="lead-info">
+                        <h3>Gherson Panificadora</h3>
+                        <p>Comissão R$ 5.000,00</p>
+                    </div>
+                </div>
+                <div class="lead-card-right">
+                    <div class="days-badge">30 Dias em</div>
+                    <div class="whatsapp-btn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="lead-card-footer">
+                <span class="lead-status-tag">Em qualificação</span>
+                <span class="lead-status-tag contract">Ass. do contrado</span>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                <span>Ganho</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>Leads</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span>Conteúdo</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                <span>Níveis</span>
+            </div>
+        </div>
+
+        <!-- Second Lead Card (Simple) -->
+        <div class="lead-card-simple">
+            <div class="lead-simple-left">
+                <div class="lead-simple-avatar">
+                    <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.5)" width="20" height="20">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <div class="lead-simple-info">
+                    <h4>Gherson Panificadora</h4>
+                    <p>Comissão R$ 5.900,00</p>
+                </div>
+            </div>
+            <div class="lead-simple-right">
+                <div class="lead-simple-days">30 Dias em aberto</div>
+                <div class="lead-simple-status">Ass. do contrado</div>
+            </div>
+        </div>
+
+        <div class="access-list-link">
+            Acessar lista completa
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
+        </div>
+
+        <!-- Financial Section -->
+        <div class="financial-section">
+            <div class="financial-header">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+                </svg>
+                <span>Total conquistado</span>
+            </div>
+            <div class="financial-amount">R$ 62.000,00</div>
+
+            <div class="financial-row">
+                <span class="financial-label">Pagos</span>
+                <div class="financial-value">
+                    <span>R$ 14.400,00</span>
+                    <span class="financial-trend up">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 14l5-5 5 5z"/>
+                        </svg>
+                        7% Último mês
+                    </span>
+                    <svg class="trend-graph" viewBox="0 0 50 20">
+                        <path d="M0 18 Q10 15, 15 12 T25 8 T35 10 T45 5 L50 5" stroke="#10b981" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="financial-row">
+                <span class="financial-label">A receber</span>
+                <div class="financial-value">
+                    <span>R$ 49.600,00</span>
+                    <span class="financial-trend up">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 14l5-5 5 5z"/>
+                        </svg>
+                        10% Último mês
+                    </span>
+                    <svg class="trend-graph" viewBox="0 0 50 20">
+                        <path d="M0 15 Q10 12, 15 10 T25 12 T35 8 T45 3 L50 3" stroke="#10b981" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commission Section -->
+        <div class="commission-section">
+            <div class="commission-header">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+                </svg>
+                <span>Comissão em aberto</span>
+                <svg class="info-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+            </div>
+            <div class="commission-amount">R$ 80.000,00</div>
+            <div class="commission-footer">
+                <span class="commission-total">Total Pago: <span>R$ 27k</span></span>
+                <span class="financial-trend up">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 14l5-5 5 5z"/>
+                    </svg>
+                    7% Último mês
+                </span>
+            </div>
+        </div>
+
+        <!-- Level Section -->
+        <div class="level-section">
+            <div class="level-medal">
+                <div class="level-medal-inner">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4 4h4v24H4V4zm12 0h4v24h-4V4z"/>
+                        <path d="M8 12h8v4H8v-4z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="level-percentage">78% | <span>Nível Prata</span></div>
+            <p class="level-message">Você está perto de avançar o nível ouro.</p>
+            <button class="level-btn">
+                Ver todos os benefícios
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+            </button>
+
+            <div class="level-progress-section">
+                <div class="level-progress-header">
+                    <span class="level-progress-label">Meu nível</span>
+                    <span class="level-progress-label">Próximo nível <span style="color: #ffd700;">●</span></span>
+                </div>
+                <div class="level-progress-track">
+                    <div class="level-progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advantages Section -->
+        <div class="advantages-section">
+            <div class="advantages-title">Vantagens</div>
+            <div class="advantage-row gold">
+                <span class="advantage-label">Ouro: Bônus de R$1.250 no ato da assinatura validada</span>
+            </div>
+            <div class="advantage-row black">
+                <span class="advantage-label">Black: Bônus de R$ 1.500 no ato da assinatura validada</span>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <div class="progress-item">
+                <span class="progress-label">Prospectar possíveis clientes</span>
+                <span class="progress-value">6/10</span>
+            </div>
+            <div class="progress-item">
+                <span class="progress-label">Fechar Clientes</span>
+                <span class="progress-value">9/10</span>
+            </div>
+            <div class="progress-item">
+                <span class="progress-label">Indicar novos parceiros</span>
+                <span class="progress-value">9/10</span>
+            </div>
+        </div>
+
+        <!-- Earnings Chart Section -->
+        <div class="earnings-section">
+            <div class="earnings-header">
+                <span class="earnings-title">Meus ganhos</span>
+                <div class="month-selector">
+                    Mês
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <span class="chart-line" style="top: 0;">R$ 20.000</span>
+                <div class="chart-bars">
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="height: 40px;"></div>
+                        <span class="chart-label">Jan</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="height: 60px;"></div>
+                        <span class="chart-label">Abr</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="height: 80px;"></div>
+                        <span class="chart-label">Jul</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar highlighted" style="height: 120px;"></div>
+                        <span class="chart-label">Nov</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="safe-area-bottom"></div>
+    </div>
+</body>
+</html>
